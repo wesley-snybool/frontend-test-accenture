@@ -74,20 +74,25 @@ function App() {
       <span onClick={handleAddCripto}>Adicionar Cripto</span>
 
       <S.BoxSelector>
-        {criptoSymbols.map((item) => {
-          return (
-            <div key={`${item.id}`}>
-              <input
-                type="checkbox"
-                defaultChecked={false}
-                id={`${item.id}`}
-                name="item.code"
-                onClick={() => handleAddSymbol(item.code)}
-              />
-              <span>{item.code}</span>
-            </div>
-          );
-        })}
+        <S.ContainerCheckBox>
+          {criptoSymbols.map((item) => {
+            return (
+              <div key={`${item.id}`}>
+                <input
+                  type="checkbox"
+                  defaultChecked={false}
+                  id={`${item.id}`}
+                  name="item.code"
+                  onClick={() => handleAddSymbol(item.code)}
+                />
+                <span>{item.code}</span>
+              </div>
+            );
+          })}
+        </S.ContainerCheckBox>
+        <S.MainButton>
+          <button>Add to List</button>
+        </S.MainButton>
       </S.BoxSelector>
     </>
   );

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import * as S from "./styles";
 import List from "./Components/List";
 import ListLine from "./Components/ListLine";
@@ -7,13 +6,9 @@ import { ListLineProps } from "./types";
 
 function App() {
   const [symbols, setSymbols] = useState<string[]>([]);
-  const [eventChange, setEventChange] = useState<ListLineProps>({
-    a: "",
-    b: "",
-    p: "",
-    q: "",
-    s: "",
-  });
+  const [symbolData, setSymbolData] = useState<Record<string, ListLineProps>>(
+    {}
+  );
 
   const WS_URL = "wss://stream.binance.com:9443/ws/";
 
@@ -21,24 +16,29 @@ function App() {
     BTCUSDT: "btcusdt@trade",
     ETHUSDT: "ethusdt@trade",
     BNBUSDT: "bnbusdt@trade",
+    LTCBTC: "ltcbtc@trade",
   };
 
-  const socketConnections: Record<string, any> = {}; // Armazena as conexões do WebSocket
+  const socketConnections: Record<string, WebSocket> = {};
 
   const handleAddSymbol = (flag: string) => {
     if (!symbols.includes(flag)) {
-      // Cria uma nova conexão WebSocket ao adicionar um novo símbolo
       const socket = new WebSocket(`${WS_URL}${symbolsEnum[flag]}`);
       socketConnections[flag] = socket;
       socket.onopen = () => console.log(`Conectado a ${flag}`);
       socket.onerror = () => console.log(`Erro ao conectar a ${flag}`);
       socket.onmessage = (event) => {
-        setEventChange(JSON.parse(event.data));
+        const eventData = JSON.parse(event.data);
+        console.log(JSON.parse(event.data));
+
+        setSymbolData((prevData) => ({
+          ...prevData,
+          [flag]: eventData,
+        }));
       };
 
       setSymbols((prev) => [...prev, flag]);
     } else {
-      // Fecha e remove a conexão WebSocket ao remover um símbolo
       const socket = socketConnections[flag];
       if (socket) {
         socket.close();
@@ -46,13 +46,18 @@ function App() {
       }
       let newState = symbols.filter((item) => item !== flag);
       setSymbols(newState);
+
+      setSymbolData((prevData) => {
+        const newData = { ...prevData };
+        delete newData[flag];
+        return newData;
+      });
     }
   };
 
   useEffect(() => {
     console.log(symbols);
-    console.log(eventChange, "eventos");
-  }, [symbols, eventChange]);
+  }, [symbols]);
 
   const criptoSymbols = [
     {
@@ -66,6 +71,18 @@ function App() {
     {
       code: "BNBUSDT",
       id: 3,
+    },
+    {
+      code: "LTCBTC",
+      id: 4,
+    },
+    {
+      code: "NEOBTC",
+      id: 5,
+    },
+    {
+      code: "BNBBTC",
+      id: 6,
     },
   ];
 
@@ -92,10 +109,10 @@ function App() {
           <button>Add to List</button>
         </S.MainButton>
       </S.BoxSelector>
-
       <List>
         {symbols.map((item) => {
-          return <ListLine key={`${item}`} {...eventChange} />;
+          const symbolInfo = symbolData[item];
+          return <>{symbolInfo && <ListLine key={item} {...symbolInfo} />}</>;
         })}
       </List>
     </S.Main>

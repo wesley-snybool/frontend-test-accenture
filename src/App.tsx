@@ -7,6 +7,9 @@ import axios from "axios";
 import { useId } from "react";
 
 import * as S from "./styles";
+import Table from "./Components/List";
+import List from "./Components/List";
+import ListLine from "./Components/ListLine";
 
 function App() {
   const [symbols, setSymbols] = useState<string[]>([]);
@@ -65,14 +68,18 @@ function App() {
     console.log(symbols);
   }, [symbols]);
 
+  const data = [
+    {
+      lastPrice: "0.2523",
+      symbol: "BTCUSDT",
+      bidPrice: "0.2523",
+      askPrice: "0.2523",
+      priceChange: "0.2523",
+    },
+  ];
+
   return (
-    <>
-      <span>ETC: {"lastJsonMessage?.p"}</span>
-
-      <span>BTC: {"lastJsonMessage?.p"}</span>
-
-      <span onClick={handleAddCripto}>Adicionar Cripto</span>
-
+    <S.Main>
       <S.BoxSelector>
         <S.ContainerCheckBox>
           {criptoSymbols.map((item) => {
@@ -94,7 +101,13 @@ function App() {
           <button>Add to List</button>
         </S.MainButton>
       </S.BoxSelector>
-    </>
+
+      <List>
+        {data.map((item) => {
+          return <ListLine data={item} />;
+        })}
+      </List>
+    </S.Main>
   );
 }
 

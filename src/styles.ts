@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const Main = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+`;
+
 export const BoxSelector = styled.div`
   width: 250px;
   height: 450px;

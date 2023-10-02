@@ -1,13 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-
-import useWebSocket, { ReadyState } from "react-use-websocket";
-
-import axios from "axios";
-
-import { useId } from "react";
+import { useEffect, useState } from "react";
 
 import * as S from "./styles";
-import Table from "./Components/List";
 import List from "./Components/List";
 import ListLine from "./Components/ListLine";
 import { ListLineProps } from "./types";
@@ -73,16 +66,6 @@ function App() {
     {
       code: "BNBUSDT",
       id: 3,
-    },
-  ];
-
-  const data = [
-    {
-      p: "0.2523",
-      symbol: "BTCUSDT",
-      a: "0.2523",
-      b: "0.2523",
-      q: "0.2523",
     },
   ];
 

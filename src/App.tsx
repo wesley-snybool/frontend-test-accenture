@@ -10,18 +10,48 @@ import * as S from "./styles";
 import Table from "./Components/List";
 import List from "./Components/List";
 import ListLine from "./Components/ListLine";
+import { ListLineProps } from "./types";
 
 function App() {
   const [symbols, setSymbols] = useState<string[]>([]);
+  const [eventChange, setEventChange] = useState<ListLineProps>();
 
   const WS_URL = "wss://stream.binance.com:9443/ws/";
-  const currencyPairs = ["btcusdt@trade", "ethusdt@trade", "bnbusdt@trade"];
 
-  enum SymbolsEnum {
-    "BTCUSDT" = "ethusdt@trade",
-    "ETHUSDT" = "ethusdt@trade",
-    "BNBUSDT" = "bnbusdt@trade",
-  }
+  const symbolsEnum: Record<string, string> = {
+    BTCUSDT: "btcusdt@trade",
+    ETHUSDT: "ethusdt@trade",
+    BNBUSDT: "bnbusdt@trade",
+  };
+
+  const socketConnections: Record<string, any> = {}; // Armazena as conexões do WebSocket
+
+  const handleAddSymbol = (flag: string) => {
+    if (!symbols.includes(flag)) {
+      // Cria uma nova conexão WebSocket ao adicionar um novo símbolo
+      const socket = new WebSocket(`${WS_URL}${symbolsEnum[flag]}`);
+      socketConnections[flag] = socket;
+      socket.onopen = () => console.log(`Conectado a ${flag}`);
+      socket.onerror = () => console.log(`Erro ao conectar a ${flag}`);
+      socket.onmessage = (event) => {
+        console.log(event.data);
+      };
+      setSymbols((prev) => [...prev, flag]);
+    } else {
+      // Fecha e remove a conexão WebSocket ao remover um símbolo
+      const socket = socketConnections[flag];
+      if (socket) {
+        socket.close();
+        delete socketConnections[flag];
+      }
+      let newState = symbols.filter((item) => item !== flag);
+      setSymbols(newState);
+    }
+  };
+
+  useEffect(() => {
+    console.log(symbols);
+  }, [symbols]);
 
   const criptoSymbols = [
     {
@@ -37,36 +67,6 @@ function App() {
       id: 3,
     },
   ];
-
-  currencyPairs.forEach((currency) => {
-    const { lastJsonMessage } = useWebSocket<{ p: string }>(
-      `${WS_URL}${currency}`,
-      {
-        onOpen: () => console.log(`Conectado a ${currency}`),
-        onError: () => console.log(`Erro ao conectar a ${currency}`),
-        shouldReconnect: () => true,
-        reconnectInterval: 1000,
-        onMessage: () => {
-          console.log(lastJsonMessage);
-        },
-      }
-    );
-  });
-
-  const handleAddSymbol = (flag: string) => {
-    if (!symbols.includes(flag)) {
-      setSymbols((prev) => [...prev, flag]);
-    } else {
-      let newState = symbols.filter((item) => item !== flag);
-      setSymbols(newState);
-    }
-  };
-
-  const handleAddCripto = () => {};
-
-  useEffect(() => {
-    console.log(symbols);
-  }, [symbols]);
 
   const data = [
     {
@@ -104,7 +104,7 @@ function App() {
 
       <List>
         {data.map((item) => {
-          return <ListLine data={item} />;
+          return <ListLine key={`${item}`} data={item} />;
         })}
       </List>
     </S.Main>

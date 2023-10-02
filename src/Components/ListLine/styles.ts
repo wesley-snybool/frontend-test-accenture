@@ -5,4 +5,5 @@ export const Main = styled.div`
   display: flex;
   gap: 40px;
   padding: 20px 20px;
+  border: 1px solid lightgray;
 `;

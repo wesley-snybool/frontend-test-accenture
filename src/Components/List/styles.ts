@@ -5,10 +5,8 @@ export const ListMain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
+  width: 100%;
   margin: 0 30px;
-  background-color: lightcoral;
-  padding: 0 10px;
 
   header {
     background-color: lightgray;

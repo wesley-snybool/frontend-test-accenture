@@ -6,10 +6,10 @@ const ListLine = ({ s, p, a, b, q }: ListLineProps): JSX.Element => {
   return (
     <S.Main>
       <span>{s}</span>
-      <span>{p}</span>
-      <span>{b}</span>
-      <span>{a}</span>
-      <span>{q}</span>
+      <span>{Number(p).toFixed(4)}</span>
+      <span>{Number(b).toFixed(4)}</span>
+      <span>{Number(a).toFixed(4)}</span>
+      <span>{Number(q).toFixed(4)}</span>
     </S.Main>
   );
 };

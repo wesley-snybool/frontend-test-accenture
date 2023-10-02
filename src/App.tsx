@@ -19,7 +19,7 @@ function App() {
     b: "",
     p: "",
     q: "",
-    symbol: "",
+    s: "",
   });
 
   const WS_URL = "wss://stream.binance.com:9443/ws/";

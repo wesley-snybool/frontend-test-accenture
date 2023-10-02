@@ -1,6 +1,6 @@
 export type ListLineProps = {
   p: string;
-  symbol: string;
+  s: string;
   a: string;
   b: string;
   q: string;

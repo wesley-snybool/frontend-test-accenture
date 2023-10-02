@@ -7,6 +7,8 @@ export const ListMain = styled.div`
   align-items: center;
   flex: 1;
   margin: 0 30px;
+  background-color: lightcoral;
+  padding: 0 10px;
 
   header {
     background-color: lightgray;
@@ -14,15 +16,8 @@ export const ListMain = styled.div`
     width: 100%;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 55px;
     height: 50px;
     font-weight: bold;
-  }
-
-  div {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    padding: 10px 40px;
   }
 `;

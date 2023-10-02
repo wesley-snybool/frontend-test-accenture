@@ -15,7 +15,7 @@ const List = ({ children }: ListProps): JSX.Element => {
         <span>Ask Price</span>
         <span>Price Change</span>
       </header>
-      <div>{children}</div>
+      {children}
     </S.ListMain>
   );
 };

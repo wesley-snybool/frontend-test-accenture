@@ -17,6 +17,8 @@ function App() {
     ETHUSDT: "ethusdt@trade",
     BNBUSDT: "bnbusdt@trade",
     LTCBTC: "ltcbtc@trade",
+    NEOBTC: "neobtc@trade",
+    BNBBTC: "bnbbtc@trade",
   };
 
   const socketConnections: Record<string, WebSocket> = {};

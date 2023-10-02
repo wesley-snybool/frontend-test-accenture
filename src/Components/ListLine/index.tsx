@@ -5,7 +5,9 @@ import * as S from "./styles";
 const ListLine = ({ s, p, a, b, q }: ListLineProps): JSX.Element => {
   return (
     <S.Main>
-      <span>{s}</span>
+      <span>
+        <strong>{s}</strong>
+      </span>
       <span>{Number(p).toFixed(2)}</span>
       <span>{Number(b).toFixed(2)}</span>
       <span>{Number(a).toFixed(2)}</span>

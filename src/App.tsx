@@ -38,7 +38,7 @@ function App() {
     },
   ];
 
-  /*   currencyPairs.forEach((currency) => {
+  currencyPairs.forEach((currency) => {
     const { lastJsonMessage } = useWebSocket<{ p: string }>(
       `${WS_URL}${currency}`,
       {
@@ -51,7 +51,7 @@ function App() {
         },
       }
     );
-  }); */
+  });
 
   const handleAddSymbol = (flag: string) => {
     if (!symbols.includes(flag)) {
@@ -70,11 +70,11 @@ function App() {
 
   const data = [
     {
-      lastPrice: "0.2523",
+      p: "0.2523",
       symbol: "BTCUSDT",
-      bidPrice: "0.2523",
-      askPrice: "0.2523",
-      priceChange: "0.2523",
+      a: "0.2523",
+      b: "0.2523",
+      q: "0.2523",
     },
   ];
 

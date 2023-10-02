@@ -10,11 +10,10 @@ const List = ({ children }: ListProps): JSX.Element => {
     <S.ListMain>
       <header>
         <span>Symbol</span>
-        <span>Symbol</span>
-        <span>Symbol</span>
-        <span>Symbol</span>
-        <span>Symbol</span>
-        <span>Symbol</span>
+        <span>Last Price</span>
+        <span>Bid Price</span>
+        <span>Ask Price</span>
+        <span>Price Change</span>
       </header>
       <div>{children}</div>
     </S.ListMain>

@@ -14,7 +14,13 @@ import { ListLineProps } from "./types";
 
 function App() {
   const [symbols, setSymbols] = useState<string[]>([]);
-  const [eventChange, setEventChange] = useState<ListLineProps>();
+  const [eventChange, setEventChange] = useState<ListLineProps>({
+    a: "",
+    b: "",
+    p: "",
+    q: "",
+    symbol: "",
+  });
 
   const WS_URL = "wss://stream.binance.com:9443/ws/";
 
@@ -34,8 +40,9 @@ function App() {
       socket.onopen = () => console.log(`Conectado a ${flag}`);
       socket.onerror = () => console.log(`Erro ao conectar a ${flag}`);
       socket.onmessage = (event) => {
-        console.log(event.data);
+        setEventChange(JSON.parse(event.data));
       };
+
       setSymbols((prev) => [...prev, flag]);
     } else {
       // Fecha e remove a conexão WebSocket ao remover um símbolo
@@ -51,7 +58,8 @@ function App() {
 
   useEffect(() => {
     console.log(symbols);
-  }, [symbols]);
+    console.log(eventChange, "eventos");
+  }, [symbols, eventChange]);
 
   const criptoSymbols = [
     {
@@ -103,8 +111,8 @@ function App() {
       </S.BoxSelector>
 
       <List>
-        {data.map((item) => {
-          return <ListLine key={`${item}`} data={item} />;
+        {symbols.map((item) => {
+          return <ListLine key={`${item}`} {...eventChange} />;
         })}
       </List>
     </S.Main>

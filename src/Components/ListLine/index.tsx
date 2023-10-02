@@ -1,13 +1,13 @@
 import { ListLineProps } from "../../types";
 
-const ListLine = ({ data }: ListLineProps): JSX.Element => {
+const ListLine = ({ symbol, p, a, b, q }: ListLineProps): JSX.Element => {
   return (
     <div>
-      <span>{data.symbol}</span>
-      <span>{data.p}</span>
-      <span>{data.b}</span>
-      <span>{data.a}</span>
-      <span>{data.q}</span>
+      <span>{symbol}</span>
+      <span>{p}</span>
+      <span>{b}</span>
+      <span>{a}</span>
+      <span>{q}</span>
     </div>
   );
 };

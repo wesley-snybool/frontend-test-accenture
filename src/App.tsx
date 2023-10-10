@@ -12,26 +12,39 @@ function App() {
 
   const WS_URL = "wss://stream.binance.com:9443/ws/";
 
-  const symbolsEnum: Record<string, string> = {
+  /*   const symbolsEnum: Record<string, string> = {
     BTCUSDT: "btcusdt@trade",
     ETHUSDT: "ethusdt@trade",
     BNBUSDT: "bnbusdt@trade",
     LTCBTC: "ltcbtc@trade",
     NEOBTC: "neobtc@trade",
     BNBBTC: "bnbbtc@trade",
-  };
+  }; */
+
+  enum symbolsEnum {
+    BTCUSDT = "btcusdt@trade",
+    ETHUSDT = "ethusdt@trade",
+    BNBUSDT = "bnbusdt@trade",
+    LTCBTC = "ltcbtc@trade",
+    NEOBTC = "neobtc@trade",
+    BNBBTC = "bnbbtc@trade",
+  }
+
+  type SymbolsType = keyof typeof symbolsEnum;
 
   const socketConnections: Record<string, WebSocket> = {};
 
-  const handleAddSymbol = (flag: string) => {
+  const handleAddSymbol = (flag: SymbolsType) => {
     if (!symbols.includes(flag)) {
       const socket = new WebSocket(`${WS_URL}${symbolsEnum[flag]}`);
+
       socketConnections[flag] = socket;
+
       socket.onopen = () => console.log(`Conectado a ${flag}`);
       socket.onerror = () => console.log(`Erro ao conectar a ${flag}`);
       socket.onmessage = (event) => {
         const eventData = JSON.parse(event.data);
-        console.log(JSON.parse(event.data));
+        //console.log(JSON.parse(event.data));
 
         setSymbolData((prevData) => ({
           ...prevData,
@@ -58,8 +71,9 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(symbols);
-  }, [symbols]);
+    console.log(symbolData, "symbol data");
+    console.log(symbols, "symbols");
+  }, [symbolData, symbols]);
 
   const criptoSymbols = [
     {
@@ -100,7 +114,7 @@ function App() {
                   defaultChecked={false}
                   id={`${item.id}`}
                   name="item.code"
-                  onClick={() => handleAddSymbol(item.code)}
+                  onClick={() => handleAddSymbol(item.code as SymbolsType)}
                 />
                 <span>{item.code}</span>
               </div>

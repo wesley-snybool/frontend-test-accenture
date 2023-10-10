@@ -38,6 +38,8 @@ function App() {
     if (!symbols.includes(flag)) {
       const socket = new WebSocket(`${WS_URL}${symbolsEnum[flag]}`);
 
+      console.log(socket, "peguei o socket aqui");
+
       socketConnections[flag] = socket;
 
       socket.onopen = () => console.log(`Conectado a ${flag}`);
